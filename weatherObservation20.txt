@@ -1,0 +1,24 @@
+DECLARE @half float; 
+
+/*get the total number of rows in the table*/
+WITH RS AS (
+SELECT COUNT(*) AS RN
+FROM STATION
+)
+
+/*calculate the half of the total number of rows in the table*/
+SELECT @half = CAST(RN AS FLOAT)/2 FROM RS;
+
+/*use a CTE to query the lat_n and its row number
+WITH rounum AS (
+SELECT LAT_N, ROW_NUMBER() OVER(ORDER BY LAT_N) RN
+FROM STATION 
+)
+
+/*The actual query*/
+SELECT CASE
+    WHEN MAX(RN)%2 = 1 THEN (SELECT CAST(LAT_N AS DECIMAL(10,4)) 
+                             FROM rounum  WHERE RN = CEILING(@HALF) )
+    ELSE (SELECT CAST(AVG(LAT_N) AS DECIMAL(10,4)) FROM ROUNUM WHERE RN IN(@HALF, @HALF+1))
+END
+FROM rounum
