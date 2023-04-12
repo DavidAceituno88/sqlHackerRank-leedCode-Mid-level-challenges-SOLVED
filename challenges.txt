@@ -1,0 +1,17 @@
+WITH CTE AS 
+(SELECT challenges.hacker_id as hackerId,hackers.name as name, COUNT(challenge_id) as numChall
+FROM challenges
+JOIN hackers ON challenges.hacker_id = hackers.hacker_id
+GROUP BY challenges.hacker_id,hackers.name
+)
+/*
+SELECT hackerId, name, numChall 
+FROM CTE 
+WHERE numChall = (SELECT TOP 1 numChall FROM CTE ORDER BY numChall DESC )
+OR numChall IN ( 
+    SELECT DISTINCT numChall 
+    FROM CTE
+    GROUP BY numChall
+    HAVING COUNT(numChall) = 1
+)
+ORDER BY numChall DESC, hackerid;
