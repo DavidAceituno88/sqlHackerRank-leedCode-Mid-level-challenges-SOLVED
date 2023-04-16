@@ -1,0 +1,8 @@
+SELECT CASE 
+WHEN g.grade >7 THEN s.name
+ELSE 'NULL'
+END,
+g.grade,s.marks
+FROM students s JOIN grades g
+ON s.marks between g.min_mark AND g.max_mark
+ORDER BY g.grade desc, s.name
