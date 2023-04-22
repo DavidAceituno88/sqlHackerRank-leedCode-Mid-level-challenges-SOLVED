@@ -1,0 +1,8 @@
+WITH CTE AS (
+    SELECT id, salary, dense_rank() over(order by salary desc) as remp
+    FROM employee   
+)
+SELECT CASE WHEN MAX(REMP)= 1 THEN null 
+ELSE (SELECT DISTINCT SALARY FROM CTE WHERE REMP = 2) 
+END as SecondHighestSalary
+FROM CTE
