@@ -1,0 +1,9 @@
+WITH CTE AS
+(SELECT d.name AS Department, e.name as Employee, dense_rank() over(partition by d.name order by e.salary desc) as rsalary, salary
+FROM employee e JOIN department d
+ON e.departmentId = d.id
+)
+
+SELECT Department, Employee, Salary
+FROM CTE
+WHERE rsalary = 1
