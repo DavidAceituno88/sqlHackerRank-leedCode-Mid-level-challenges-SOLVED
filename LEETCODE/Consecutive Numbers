@@ -1,0 +1,12 @@
+/* check the lead for the each number and their second lead 
+both need to be the same number, but we need to order this by
+id not the num value so it will only return true when that condition
+is satisfied*/
+WITH CTE AS(
+  SELECT num,lead(num,1) OVER(ORDER BY id) num1,lead(num,2) OVER(ORDER BY id)
+num2
+FROM Logs
+)
+SELECT distinct num AS ConsecutiveNums
+FROM CTE 
+WHERE num =num1 AND num=num2
