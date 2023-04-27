@@ -1,0 +1,14 @@
+/* Count the number of times an id is in the manager id field
+grouped by id
+When the count is bigger or equal than 5 then we print the name 
+corresponding to that id*/
+WITH CTE AS(
+SELECT E1.NAME AS name, COUNT(E2.MANAGERID) NOREP
+FROM EMPLOYEE E1
+JOIN EMPLOYEE E2
+ON E1.ID = E2.MANAGERID
+GROUP BY E1.NAME
+)
+SELECT name 
+FROM CTE
+WHERE NOREP >= 5
