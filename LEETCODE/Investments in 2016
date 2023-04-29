@@ -27,3 +27,16 @@ SELECT ROUND(SUM(tiv_2016),2) AS tiv_2016
         COUNT(*) OVER(PARTITION BY lat,lon) AS lcnt
         FROM Insurance) AS temp
   WHERE tcnt >1 AND lcnt = 1
+  
+/* USING CTE AND WINDOW FUNCTIONS*/
+WITH CTE AS (
+            SELECT *,
+            COUNT(lat) OVER(PARTITION BY lat,lon) AS lcnt,
+            COUNT(tiv_2015) OVER(PARTITION BY tiv_2015) AS tcnt
+            FROM Insurance
+            ) 
+SELECT ROUND(SUM(tiv_2016),2) AS tiv_2016
+FROM CTE
+WHERE lcnt = 1 
+AND tcnt > 1 
+  
