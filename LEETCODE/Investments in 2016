@@ -1,0 +1,20 @@
+/* Write your T-SQL query statement below */
+/*FIND duplicates on tiv_2016
+  FIND unique lat , lon*/
+WITH CTE1 AS(
+  SELECT tiv_2015
+  FROM Insurance
+  GROUP BY tiv_2015
+  HAVING COUNT(tiv_2015)>1
+),
+CTE2 AS (
+ SELECT i1.lat AS replat,i1.lon AS replon, i1.pid repid
+  FROM Insurance i1
+  JOIN Insurance i2
+  ON i1.pid <> i2.pid AND i1.lat=i2.lat AND i1.lon=i2.lon
+)
+
+SELECT CAST(SUM(tiv_2016) as numeric(10,2)) AS tiv_2016
+FROM Insurance
+WHERE tiv_2015 IN (SELECT tiv_2015 FROM CTE1)
+AND pid NOT IN(SELECT repid FROM cte2)
