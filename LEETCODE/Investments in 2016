@@ -14,7 +14,7 @@ CTE2 AS (
   ON i1.pid <> i2.pid AND i1.lat=i2.lat AND i1.lon=i2.lon
 )
 
-SELECT CAST(SUM(tiv_2016) as numeric(10,2)) AS tiv_2016
+SELECT CAST(SUM(tiv_2016) AS NUMERIC(10,2)) AS tiv_2016
 FROM Insurance
 WHERE tiv_2015 IN (SELECT tiv_2015 FROM CTE1)
 AND pid NOT IN(SELECT repid FROM cte2)
