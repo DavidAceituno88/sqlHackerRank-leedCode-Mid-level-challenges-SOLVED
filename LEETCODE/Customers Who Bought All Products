@@ -1,0 +1,6 @@
+/*Group all the customer values by customer_id so we can get the product_key by customer_id
+  Then count the distinc product_key values wich should be the same as the count of distinct values from the Product table*/
+SELECT c.customer_id
+FROM Customer c
+GROUP BY c.customer_id
+HAVING COUNT( DISTINCT c.product_key) = (SELECT COUNT(product_key) FROM Product)
