@@ -1,0 +1,13 @@
+/* get the minimum value of the field year from
+each product grouped by product_id
+then select the product_id,quantity,and price 
+of those products whos year value is the minimum*/
+WITH CTE AS (
+  SELECT product_id, MIN(year) firsty
+  FROM Sales
+  GROUP BY product_id
+)
+SELECT s.product_id, s.year as first_year, quantity, price
+FROM Sales s
+JOIN CTE c
+ON s.product_id = c.product_id AND s.year = c.firsty
