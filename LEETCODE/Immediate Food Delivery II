@@ -1,0 +1,14 @@
+/* COUNT THE NO OF FIRST IMMEDIATE ORDERS (WHERE DELIVERY DATE = ORDER DATE)
+COUNT THE NO OF FIRST ORDERS AND CALCULATE THE PERCENTAGE THAT THE IMMEDIATE 
+ORDERS REPRESENT*/
+WITH CTE AS(
+SELECT customer_id, MIN(order_date) over(partition by customer_id order by customer_pref_delivery_date ) AS mindate, order_date, customer_pref_delivery_date
+FROM Delivery
+),
+CTE2 AS(
+  SELECT MIN(order_date) over(partition by customer_id order by customer_pref_delivery_date) AS mindateall
+  FROM Delivery  
+)
+SELECT ROUND(((CAST(COUNT(*) AS DECIMAL(10,2))/(SELECT CAST(COUNT(*)AS DECIMAL(10,2)) FROM CTE2))*100),2) AS immediate_percentage
+FROM CTE
+WHERE order_date = customer_pref_delivery_date
