@@ -13,3 +13,21 @@
         END) as approved_total_amount
   FROM Transactions 
   GROUP BY country, CAST(YEAR(trans_date) AS NVARCHAR(4)) + '-' + RIGHT ('00' + CAST(MONTH(trans_date) AS NVARCHAR(2)),2)
+
+
+/*U P D A T E D  V E R S I O N*/
+/*Approved transactions amount per month and country*/
+ SELECT LEFT(trans_date,7) AS month, 
+ country, 
+ COUNT(id) AS trans_count,
+ SUM(CASE 
+        WHEN state = 'approved' then 1
+        ELSE 0
+        END) as approved_count,
+ SUM(amount) AS trans_total_amount,
+ SUM(CASE
+        WHEN state = 'approved' THEN amount 
+        ELSE 0
+        END) as approved_total_amount
+  FROM Transactions 
+  GROUP BY country, LEFT(trans_date,7)
