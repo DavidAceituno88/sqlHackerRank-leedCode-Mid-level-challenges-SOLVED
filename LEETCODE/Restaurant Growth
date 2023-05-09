@@ -1,0 +1,21 @@
+/*SELECT THE LAST DATE*/
+WITH CTE AS(
+SELECT TOP 1 visited_on AS last_visit
+FROM Customer
+ORDER BY visited_on DESC
+)
+SELECT DISTINCT DATEADD(DAY,6,visited_on) as visited_on, 
+(
+  SELECT SUM(amount)
+  FROM Customer c2
+  WHERE
+  c2.visited_on BETWEEN c1.visited_on AND DATEADD(DAY,6,c1.visited_on) 
+ ) AS amount,
+ (
+  SELECT ROUND((SUM(CAST(amount AS NUMERIC(10,2)))/7),2)
+  FROM Customer c2
+  WHERE
+  c2.visited_on BETWEEN c1.visited_on AND DATEADD(DAY,6,c1.visited_on) 
+ ) AS average_amount
+FROM Customer c1
+WHERE DATEDIFF(DAY,visited_on,(SELECT last_visit FROM CTE))>=6
