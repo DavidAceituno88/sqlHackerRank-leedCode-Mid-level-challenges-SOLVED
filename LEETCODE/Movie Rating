@@ -1,0 +1,22 @@
+WITH CTE AS(
+SELECT u.name as name, COUNT(m.rating) as cntrating
+FROM Users u
+JOIN MovieRating m
+ON u.user_id = m.user_id
+GROUP BY u.name
+),
+CTE2 AS(
+  SELECT title,AVG(CAST( mr.rating AS DECIMAL(10,2))) AS avgrating
+  FROM Movies m
+  JOIN MovieRating mr
+  ON m.movie_id = mr.movie_id
+  WHERE MONTH(created_at) = 02
+  GROUP BY title
+)
+SELECT TOP 1 title AS results
+FROM CTE2
+WHERE avgrating =(SELECT MAX(avgrating) FROM CTE2)
+UNION ALL
+SELECT TOP 1 name
+FROM CTE 
+WHERE cntrating = (SELECT MAX(cntrating) FROM CTE)
