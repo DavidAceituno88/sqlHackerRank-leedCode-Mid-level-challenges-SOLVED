@@ -8,3 +8,13 @@ WHERE LEN(CITY) IN (
     FROM STATION
 )
 ORDER BY LEN(CITY) DESC , CITY ASC
+
+/*CTE TABLES VERSION*/
+SELECT TOP 1 city, LEN(CITY)
+FROM station s
+WHERE LEN(city) = (SELECT MAX(LEN(city)) FROM station s)
+ORDER BY city;
+SELECT TOP 1 city, LEN(CITY)
+FROM station s
+WHERE LEN(city) = (SELECT MIN(LEN(city)) FROM station s)
+ORDER BY city;
