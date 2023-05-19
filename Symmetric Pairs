@@ -1,7 +1,7 @@
-SELECT F.X, F.Y
-FROM functions F
-JOIN functions F2
-ON F.X = F2.Y AND F.Y = F2.X
-GROUP BY F.X, F.Y
-HAVING COUNT(F.X)>1 OR F.X<F.Y
-ORDER BY F.X
+SELECT f.x,f.y
+FROM Functions f
+JOIN Functions f1
+ON f.x = f1.y AND f.y = f1.x
+GROUP BY f.x,f.y
+HAVING COUNT(f.x)>1 OR f.x<f.y
+ORDER BY f.x
