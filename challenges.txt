@@ -4,7 +4,7 @@ FROM challenges
 JOIN hackers ON challenges.hacker_id = hackers.hacker_id
 GROUP BY challenges.hacker_id,hackers.name
 )
-/*
+
 SELECT hackerId, name, numChall 
 FROM CTE 
 WHERE numChall = (SELECT TOP 1 numChall FROM CTE ORDER BY numChall DESC )
