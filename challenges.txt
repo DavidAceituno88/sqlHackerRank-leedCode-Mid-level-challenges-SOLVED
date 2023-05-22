@@ -15,3 +15,24 @@ OR numChall IN (
     HAVING COUNT(numChall) = 1
 )
 ORDER BY numChall DESC, hackerid;
+
+/*OTHER VERSION USING COUNT AND 2 CTEs*/
+WITH CTE AS
+(
+SELECT hacker_id, COUNT(challenge_id) nochall
+FROM Challenges
+GROUP BY hacker_id
+),
+CTE2 AS 
+(
+SELECT hacker_id,nochall,COUNT(hacker_id) OVER(PARTITION BY nochall) AS doubles
+FROM CTE
+)
+SELECT h.hacker_id, name, nochall
+FROM hackers h
+JOIN CTE2 c
+ON h.hacker_id = c.hacker_id
+WHERE nochall = (SELECT MAX(nochall) FROM CTE)
+OR c.doubles = 1
+ORDER BY nochall DESC, h.hacker_id
+
