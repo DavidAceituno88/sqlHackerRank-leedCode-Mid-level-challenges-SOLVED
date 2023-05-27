@@ -5,4 +5,4 @@ ON w.code = w2.code
 WHERE w2.is_evil = 0 AND w.coins_needed =(
     SELECT min(coins_needed) FROM wands 
     WHERE code = w.code AND power = w.power)
-ORDER BY w.power DESC, w2.age DESC
+ORDER BY w.power DESC, w2.age DESC 
