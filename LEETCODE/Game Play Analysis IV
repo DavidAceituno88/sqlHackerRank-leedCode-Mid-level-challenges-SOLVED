@@ -6,7 +6,7 @@ FROM activity),
 CTE2 AS(
 SELECT COUNT(DISTINCT player_id) AS logs
 FROM CTE
-WHERE DATEDIF(day,mindate,logdiff) = 1)
+WHERE DATEDIF(DAY,mindate,logdiff) = 1)
 /*lastly i took the number of players that have a 1 day difference between their first login and their next login from the CTE2
 and divided it by the number of players from the original table Activity, casted everything to decimal and named it fraction
 SELECT CAST(CAST((SELECT logs FROM cte2)as decimal(10,2))/ CAST(COUNT(distinct player_id)as decimal(10,2)) as decimal(10,2)) AS fraction
