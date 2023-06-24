@@ -31,3 +31,12 @@
         END) as approved_total_amount
   FROM Transactions 
   GROUP BY country, LEFT(trans_date,7)
+
+------------THIRD VERSION ---------------
+SELECT DISTINCT LEFT(trans_date,7) AS month , country,
+COUNT(state) OVER(PARTITION BY country, left(trans_date,7)  ORDER BY country) AS trans_count,
+SUM(CASE WHEN state = 'approved' THEN 1 ELSE 0 END) OVER(PARTITION BY country, left(trans_date,7) Order by country) AS approved_count,
+SUM(amount) OVER(PARTITION BY country, left(trans_date,7) ORDER BY country) AS trans_total_amount,
+SUM(CASE WHEN state = 'approved' THEN amount ELSE 0 END) OVER(PARTITION BY country, left(trans_date,7) Order by country) AS approved_total_amount
+FROM transactions
+ORDER BY country DESC ,left(trans_date,7)
