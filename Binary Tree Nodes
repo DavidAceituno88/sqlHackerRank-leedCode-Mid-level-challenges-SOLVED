@@ -1,4 +1,3 @@
-
 SELECT N,
 CASE 
     WHEN P IS null then 'Root'
