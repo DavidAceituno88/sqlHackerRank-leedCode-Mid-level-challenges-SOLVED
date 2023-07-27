@@ -9,3 +9,13 @@ WHEN id % 2 = 0 THEN  id-1
 END as id, student
 FROM Seat
 ORDER BY id 
+
+OPTION 2 without CTE
+SELECT CASE 
+WHEN id =  (SELECT MAX(ID) FROM SEAT) and id % 2 <> 0 THEN id
+WHEN id % 2 <> 0 THEN id + 1
+WHEN id % 2 = 0  THEN id - 1 
+
+END AS id, student
+FROM seat
+ORDER BY ID
