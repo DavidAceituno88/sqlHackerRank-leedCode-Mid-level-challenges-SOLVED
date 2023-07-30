@@ -1,11 +1,12 @@
 WITH CTE AS (
-SELECT MAX(score) AS mscore, hacker_id, challenge_id
-FROM Submissions 
-GROUP BY hacker_id, challenge_id)
-SELECT c.hacker_id,name,SUM(mscore)as total
-FROM CTE C
-JOIN Hackers h
-ON c.hacker_id = h.hacker_id
-GROUP BY c.hacker_id,name
-HAVING SUM(mscore) <> 0
-ORDER BY total DESC,c.hacker_id
+SELECT MAX(score) AS maxscore, hacker_id
+    FROM submissions 
+    GROUP BY challenge_id, hacker_id
+    )
+SELECT h.hacker_id, h.name, SUM(maxscore) AS score
+FROM hackers h
+JOIN CTE C
+ON h.hacker_id = c.hacker_id
+GROUP BY h.hacker_id,h.name
+HAVING SUM(maxscore) > 0
+ORDER BY score DESC, h.hacker_id
