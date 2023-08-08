@@ -30,24 +30,26 @@ WHERE cntrating = (SELECT MAX(cntrating) FROM CTE)
 
 
 
-
-
 WITH CTE AS (
-  SELECT COUNT(m.user_id) OVER(PARTITION BY u.name) AS id, u.name AS name 
-  FROM movierating m 
-  JOIN Users u
-  ON m.user_id = u.user_id 
+    SELECT TOP 1 name, COUNT(u.user_id) AS cntrating
+    FROM users u
+    JOIN movierating mr
+    ON u.user_id = mr.user_id
+    GROUP BY name
+    ORDER BY cntrating DESC, name 
 ),
 CTE2 AS (
-  SELECT AVG(CAST(r.rating AS DECIMAL (7,2))) OVER(PARTITION BY r.movie_id, m.title) AS rating, m.title AS title
-  FROM movierating r
-  JOIN movies m ON r.movie_id = m.movie_id
-  WHERE MONTH(r.created_at) = 02  
+    SELECT TOP 1 title, AVG(CAST(mr.rating AS DECIMAL(5,2))) AS avgrating
+    FROM movies m
+    JOIN movierating mr
+    ON m.movie_id = mr.movie_id
+    WHERE created_at >= '2/1/2020' AND created_at <= '2/29/2020'
+    GROUP BY title
+    ORDER BY avgrating DESC, title
 )
-SELECT TOP 1 c1.name AS results
-FROM CTE c1
-WHERE id = (SELECT MAX(id) FROM CTE)
+
+SELECT name AS results
+FROM CTE
 UNION ALL
-SELECT TOP 1 c2.title
-FROM CTE2 c2
-WHERE c2.rating = (SELECT MAX(rating) FROM CTE2)
+SELECT title 
+FROM CTE2
