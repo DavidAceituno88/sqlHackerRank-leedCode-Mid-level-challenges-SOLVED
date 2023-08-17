@@ -19,3 +19,29 @@ SELECT DISTINCT DATEADD(DAY,6,visited_on) as visited_on,
  ) AS average_amount
 FROM Customer c1
 WHERE DATEDIFF(DAY,visited_on,(SELECT last_visit FROM CTE))>=6
+
+
+
+
+
+
+
+
+
+----------------------------------
+/*get the average of the next 6 days*/
+WITH CTE AS(
+SELECT visited_on, CAST(SUM(amount) AS DECIMAL(7,2)) AS amount, dense_rank() over(order by visited_on) AS rnk
+FROM customer
+GROUP BY visited_on
+),
+CTE2 AS(
+SELECT rnk,visited_on, 
+sum(amount) OVER(ORDER BY visited_on, visited_on ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) AS amount,
+AVG(amount) OVER(ORDER BY visited_on, visited_on ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) AS average_amount
+FROM CTE
+)
+SELECT visited_on,amount,CAST(average_amount AS DECIMAL(10,2)) AS average_amount
+FROM CTE2
+ORDER BY visited_on
+OFFSET 6 ROWS
