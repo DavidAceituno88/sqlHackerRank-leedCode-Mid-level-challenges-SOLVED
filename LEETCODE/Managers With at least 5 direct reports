@@ -11,3 +11,16 @@ WHERE id IN (SELECT managerid
 FROM Employee
 GROUP BY managerid
 HAVING count(managerid)>=5)
+
+
+-------------------------------------------------
+WITH CTE AS(
+SELECT COUNT(managerid) AS mgrcnt,managerid
+FROM Employee
+GROUP BY managerid
+)
+SELECT name 
+FROM Employee e
+JOIN CTE c
+ON c.managerid = e.id
+WHERE c.mgrcnt > = 5
