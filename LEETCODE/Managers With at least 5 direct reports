@@ -24,3 +24,15 @@ FROM Employee e
 JOIN CTE c
 ON c.managerid = e.id
 WHERE c.mgrcnt > = 5
+
+
+--------------------------------------------------
+WITH CTE AS(
+SELECT managerid
+FROM Employee
+GROUP BY managerid
+HAVING COUNT(managerid)>=5
+)
+SELECT name
+FROM Employee
+WHERE id IN(SELECT * FROM CTE)
