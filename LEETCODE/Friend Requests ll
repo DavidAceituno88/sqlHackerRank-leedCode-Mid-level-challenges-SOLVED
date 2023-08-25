@@ -1,0 +1,11 @@
+WITH CTE AS (
+  SELECT requester_id AS combo
+  FROM requestaccepted
+  UNION ALL
+  SELECT accepter_id
+  FROM requestaccepted
+)
+SELECT TOP 1 combo AS id, COUNT(combo) AS num
+FROM CTE
+GROUP BY combo
+ORDER BY num DESC
