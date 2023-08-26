@@ -7,3 +7,14 @@ ON e.departmentId = d.id
 SELECT Department, Employee, Salary
 FROM CTE
 WHERE rsalary = 1
+
+------------------Correlated Subqueries--------------------------
+SELECT d.name AS Department, e.name AS Employee, e.salary AS Salary
+FROM Employee e
+JOIN Department d
+ON d.id = e.departmentId
+WHERE salary = (SELECT MAX(salary) 
+                FROM employee
+                WHERE departmentid = e.departmentid 
+                GROUP BY departmentid
+                )
