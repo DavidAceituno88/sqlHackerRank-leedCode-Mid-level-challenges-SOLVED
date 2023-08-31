@@ -10,3 +10,9 @@ FROM Logs
 SELECT DISTINCT num AS ConsecutiveNums
 FROM CTE 
 WHERE num =num1 AND num=num2
+
+---------------Sub Query-----------------------
+SELECT DISTINCT num AS ConsecutiveNums
+FROM (SELECT num, LEAD(num) OVER(ORDER BY id) AS ld1, LEAD(num,2) OVER(ORDER BY id) AS ld2
+FROM Logs) temp
+WHERE num = ld1 AND num = ld2
