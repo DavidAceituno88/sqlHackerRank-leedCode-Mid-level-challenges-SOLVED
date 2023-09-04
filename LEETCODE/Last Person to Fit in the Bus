@@ -9,3 +9,13 @@ JOIN CTE c
 ON c.turn = q.turn
 WHERE c.total_weight <=1000
 ORDER BY c.total_weight DESC
+
+--------------------------------------------------------------------------
+WITH CTE AS( 
+SELECT person_name, SUM(weight) OVER(ORDER BY turn) AS cw
+FROM Queue
+)
+SELECT TOP 1 person_name
+FROM CTE
+WHERE cw <= 1000
+ORDER BY cw DESC
