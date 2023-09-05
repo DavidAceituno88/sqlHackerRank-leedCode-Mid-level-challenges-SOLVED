@@ -19,14 +19,6 @@ FROM Insurance
 WHERE tiv_2015 IN (SELECT tiv_2015 FROM CTE1)
 AND pid NOT IN(SELECT repid FROM cte2)
 
-
-/*Using window functions*/
-SELECT ROUND(SUM(tiv_2016),2) AS tiv_2016
-  FROM
-        (SELECT *,COUNT(*) OVER(PARTITION BY tiv_2015) AS tcnt,
-        COUNT(*) OVER(PARTITION BY lat,lon) AS lcnt
-        FROM Insurance) AS temp
-  WHERE tcnt >1 AND lcnt = 1
   
 /* USING CTE AND WINDOW FUNCTIONS*/
 WITH CTE AS (
@@ -39,4 +31,12 @@ SELECT ROUND(SUM(tiv_2016),2) AS tiv_2016
 FROM CTE
 WHERE lcnt = 1 
 AND tcnt > 1 
-  
+-------------------------------------------------------------------
+  WITH CTE AS (
+  SELECT tiv_2015,tiv_2016, lat,lon, COUNT(lat) OVER(PARTITION BY lat,lon) AS cnt,
+COUNT(tiv_2015) OVER(PARTITION BY tiv_2015) AS cnt2
+FROM INSURANCE 
+)
+SELECT round(SUM(tiv_2016),2) AS tiv_2016 
+FROM CTE
+WHERE CNT = 1  AND cnt2 > 1
