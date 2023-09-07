@@ -6,3 +6,18 @@ CASE
     END
 FROM BST
 ORDER BY N
+
+-------------------Optimized-------------------------
+WITH CTE AS (
+    SELECT b1.n AS n,b1.p AS p,COUNT(b2.p) AS cnt
+    FROM BST b1
+    LEFT JOIN BST b2
+    ON b1.n = b2.p
+    GROUP BY b1.n,b1.p
+)
+SELECT n, CASE WHEN p IS NULL THEN 'Root'
+WHEN cnt = 0 THEN 'Leaf'
+ELSE 'Inner'
+END
+FROM CTE
+ORDER BY n
