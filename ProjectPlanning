@@ -17,3 +17,4 @@ SELECT START_DATE, END_DATE
         FROM CTE1, CTE2
         WHERE RANK_START_DATE = RANK_END_DATE
         ORDER BY DATEDIFF(day,start_date,end_date), start_date
+------------------------ SO FAR THATS THE BEST OPTION IVE EVER SEEN--------------------------------
