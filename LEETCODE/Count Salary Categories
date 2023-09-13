@@ -9,3 +9,22 @@ UNION
 SELECT 'High Salary'  category,
 SUM(CASE WHEN income > 50000 THEN 1 ELSE 0 END) AS accounts_count
 FROM Accounts
+
+----------------CTE------------------------
+WITH CTE AS(SELECT COUNT(account_id) AS accounts_count
+FROM ACCOUNTS
+WHERE income <20000),
+CTE2 AS(SELECT COUNT(account_id) AS accounts_count
+FROM ACCOUNTS
+WHERE income BETWEEN 20000 AND 50000),
+CTE3 AS(SELECT COUNT(account_id) AS accounts_count
+FROM ACCOUNTS
+WHERE income >50000)
+SELECT 'Low Salary' AS category, accounts_count
+FROM CTE
+UNION
+SELECT 'Average Salary' category, accounts_count
+FROM CTE2
+UNION
+SELECT 'High Salary' category, accounts_count
+FROM CTE3
