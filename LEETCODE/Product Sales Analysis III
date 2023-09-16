@@ -29,3 +29,13 @@ FROM Sales
 SELECT product_id,first_year,quantity,price
 FROM CTE
 WHERE year = first_year
+------------------------------------------------------------------------
+WITH CTE AS(
+  SELECT product_id, MIN(year) as first_year
+  FROM Sales
+  GROUP BY product_id
+)
+SELECT c.product_id,first_year,quantity,price
+FROM Sales s
+JOIN CTE c
+ON s.product_id = c.product_id AND s.year = c.first_year
