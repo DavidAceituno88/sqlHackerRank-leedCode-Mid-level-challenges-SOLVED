@@ -14,3 +14,15 @@ SELECT CASE WHEN MAX(topsal) = 1 THEN null
   ELSE (SELECT DISTINCT salary FROM CTE WHERE topsal = 2) 
   END AS SecondHighestSalary
 FROM CTE
+-----------------------ORACLE-------------------------
+WITH CTE1 AS (
+  SELECT 
+    salary, dense_rank() OVER (ORDER BY salary DESC) rn
+  FROM Employee
+),
+CTE2 AS (
+  SELECT rowNum, salary FROM final WHERE rn = 2
+)
+SELECT 
+  (SELECT salary FROM secondH WHERE rowNum = 1) AS SecondHighestSalary
+FROM dual
