@@ -40,3 +40,10 @@ SUM(amount) OVER(PARTITION BY country, left(trans_date,7) ORDER BY country) AS t
 SUM(CASE WHEN state = 'approved' THEN amount ELSE 0 END) OVER(PARTITION BY country, left(trans_date,7) Order by country) AS approved_total_amount
 FROM transactions
 ORDER BY country DESC ,left(trans_date,7)
+--------------------------------------------------------------------cleaner version========================================================================
+SELECT FORMAT(trans_date, 'yyyy-MM')  AS month, country,
+COUNT(id) AS trans_count,SUM( CASE WHEN state LIKE 'approved' THEN 1 ELSE 0 END) AS approved_count, 
+SUM(amount) AS trans_total_amount,
+SUM(CASE WHEN state LIKE 'approved' THEN amount ELSE 0 END) AS approved_total_amount
+FROM Transactions
+GROUP BY  Country, FORMAT(trans_date,'yyyy-MM')
