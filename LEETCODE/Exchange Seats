@@ -19,3 +19,19 @@ WHEN id % 2 = 0  THEN id - 1
 END AS id, student
 FROM seat
 ORDER BY ID
+
+---------------------------------------------------------------------
+/* Write your T-SQL query statement below */
+WITH CTE AS (
+  SELECT MAX(ID) AS maxId
+  FROM Seat
+)
+SELECT CASE WHEN id = (SELECT maxId FROM CTE) AND id % 2 <> 0 THEN id 
+            WHEN id % 2 = 1 THEN id+1 
+            WHEN id % 2 = 0 THEN id-1
+            
+            END AS id,
+            student
+FROM Seat
+ORDER BY id
+
