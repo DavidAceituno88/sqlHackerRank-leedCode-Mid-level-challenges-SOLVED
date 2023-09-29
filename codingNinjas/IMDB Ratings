@@ -1,0 +1,6 @@
+SELECT i.title,i.rating
+FROM IMDb i
+JOIN genre g ON i.movie_id = g.movie_id
+WHERE g.genre LIKE 'C%'
+AND i.title LIKE '%2014%'
+AND i.budget > 40000000
