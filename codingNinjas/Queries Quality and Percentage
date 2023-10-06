@@ -1,0 +1,3 @@
+SELECT query_name, 
+ROUND (AVG(rating / position), 2) AS quality 
+FROM Queries GROUP BY query_name;
