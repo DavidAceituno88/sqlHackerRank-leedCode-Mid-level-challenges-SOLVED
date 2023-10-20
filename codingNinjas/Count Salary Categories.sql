@@ -11,7 +11,7 @@ WHERE income BETWEEN 20000 AND 50000
 CTE3 AS(
     SELECT COUNT(income) AS accounts_count
     FROM Accounts
-WHERE income > 2000
+WHERE income > 50000
 )
 SELECT 'Low Salary' AS category,
 accounts_count FROM CTE 
