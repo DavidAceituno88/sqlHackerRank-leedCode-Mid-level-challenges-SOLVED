@@ -25,4 +25,9 @@ CTE2 AS (
 )
 SELECT 
   (SELECT salary FROM secondH WHERE rowNum = 1) AS SecondHighestSalary
+
+----------------------------------------------------------------------------------
+SELECT MAX(Salary) AS SecondHighestSalary
+ FROM Employee 
+ WHERE Salary < (SELECT MAX(Salary) FROM Employee);
 FROM dual
