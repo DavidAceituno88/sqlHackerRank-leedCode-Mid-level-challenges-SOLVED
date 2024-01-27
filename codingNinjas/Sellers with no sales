@@ -1,0 +1,21 @@
+New update is available. Click here to update.
+1
+With cte as (
+2
+    select seller_id
+3
+from orders 
+4
+where sale_date >= '2020-01-01'
+5
+and sale_date < '2021-01-01'
+6
+    )
+7
+    
+8
+Select seller_name
+9
+From seller 
+10
+where seller_id not in ( select * from cte)
