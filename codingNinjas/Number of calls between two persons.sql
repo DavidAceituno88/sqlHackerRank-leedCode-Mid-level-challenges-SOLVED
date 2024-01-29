@@ -9,4 +9,4 @@ FROM Calls
 SELECT person1, person2, COUNT(duration) AS call_count,
 SUM(duration) AS total_duration
 FROM CTE
-GROUP BY person1,person2
+GROUP BY person1,person2;
