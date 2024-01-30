@@ -7,4 +7,4 @@ ON e.departmentid = d.id
 )
 SELECT Department, Employee, Salary
 FROM CTE
-WHERE rnk < 4
+WHERE rnk < 4;
