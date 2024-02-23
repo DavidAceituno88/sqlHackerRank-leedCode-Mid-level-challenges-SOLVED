@@ -7,7 +7,7 @@ CASE
 FROM BST
 ORDER BY N
 
--------------------Optimized-------------------------
+-------------------Optimized------------------------
 WITH CTE AS (
     SELECT b1.n AS n,b1.p AS p,COUNT(b2.p) AS cnt
     FROM BST b1
